@@ -4,6 +4,7 @@ class ItemLaporanCard extends StatelessWidget {
   final Map<String, dynamic> data;
   final bool canManage;
   final bool isAdmin;
+  final bool isOwner;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
   final VoidCallback? onResolve;
@@ -14,6 +15,7 @@ class ItemLaporanCard extends StatelessWidget {
     required this.data,
     this.canManage = false,
     this.isAdmin = false,
+    this.isOwner = false,
     this.onEdit,
     this.onDelete,
     this.onResolve,
@@ -135,7 +137,7 @@ class ItemLaporanCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (similarityValue != null && similarityValue >= 70)
+                      if (isOwner && similarityValue != null && similarityValue >= 70)
                         Padding(
                           padding: const EdgeInsets.only(top: 6),
                           child: Container(

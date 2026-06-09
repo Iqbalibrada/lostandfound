@@ -656,9 +656,12 @@ class _LaporanScreenState extends State<LaporanScreen> {
                     itemCount: displayedItems.length,
                     itemBuilder: (ctx, index) {
                       final item = displayedItems[index];
+                      final bool isOwner =
+                          isAdmin || item['user_id'].toString() == widget.userId.toString();
                       return ItemLaporanCard(
                         data: item,
                         isAdmin: isAdmin,
+                        isOwner: isOwner,
                         canManage: _canManageReport(item),
                         onTap: () => _navigateToDetail(item),
                         onEdit: _canManageReport(item)
