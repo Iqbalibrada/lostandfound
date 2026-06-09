@@ -320,6 +320,12 @@ class _LaporanScreenState extends State<LaporanScreen> {
     return item['type'] == 'lost' && ownerId == widget.userId;
   }
 
+  bool _canEditReport(Map<String, dynamic> item) {
+    if (isAdmin) return false;
+    final int? ownerId = int.tryParse(item['user_id'].toString());
+    return item['type'] == 'lost' && ownerId == widget.userId;
+  }
+
   Future<void> _openEditForm(Map<String, dynamic> item) async {
     final bool? isSaved = await Navigator.push(
       context,
@@ -550,6 +556,11 @@ class _LaporanScreenState extends State<LaporanScreen> {
                 surfaceTintColor: Colors.transparent,
                 actions: [
                   IconButton(
+                    icon: const Icon(Icons.refresh_rounded, size: 20),
+                    tooltip: 'Muat ulang',
+                    onPressed: fetchDataLaporan,
+                  ),
+                  IconButton(
                     icon: const Icon(Icons.logout_rounded, size: 20),
                     tooltip: 'Keluar',
                     onPressed: _logout,
@@ -627,9 +638,10 @@ class _LaporanScreenState extends State<LaporanScreen> {
                             isRed: false,
                             onTap: () => setState(() => _statusFilter = 2),
                           ),
-                          const Spacer(),
-                          _buildFilterChip(
-                            label: 'Saya',
+                          if (isAdmin || isLostTab) const Spacer(),
+                          if (isAdmin || isLostTab)
+                            _buildFilterChip(
+                              label: 'Saya',
                             selected: _userFilter == 1,
                             isRed: false,
                             activeColor: const Color(0xFF8B5CF6),
@@ -664,7 +676,7 @@ class _LaporanScreenState extends State<LaporanScreen> {
                         isOwner: isOwner,
                         canManage: _canManageReport(item),
                         onTap: () => _navigateToDetail(item),
-                        onEdit: _canManageReport(item)
+                        onEdit: _canEditReport(item)
                             ? () => _openEditForm(item)
                             : null,
                         onDelete: _canManageReport(item)

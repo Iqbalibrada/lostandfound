@@ -217,7 +217,7 @@ class _ReportFormPageState extends State<ReportFormPage>
           );
 
           if (!mounted) return;
-          Navigator.pop(context);
+          if (context.mounted) Navigator.pop(context);
 
           if (matches.isNotEmpty) {
             _showMatchDialog(matches);
@@ -229,7 +229,7 @@ class _ReportFormPageState extends State<ReportFormPage>
       }
 
       if (!mounted) return;
-      Navigator.pop(context);
+      if (context.mounted) Navigator.pop(context);
       _showSuccessAnimation();
     } catch (e) {
       if (!mounted) return;
@@ -466,7 +466,7 @@ class _ReportFormPageState extends State<ReportFormPage>
                                   ),
                                   const SizedBox(height: 2),
                                   const Text(
-                                    'Verifikasi ke bagian Lost and Found ',
+                                    'Verifikasi ke Pos Satpam untuk informasi lebih lanjut',
                                     style: TextStyle(
                                       fontSize: 11,
                                       color: Color(0xFF94A3B8),

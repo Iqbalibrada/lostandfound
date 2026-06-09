@@ -248,25 +248,8 @@ class _DetailLaporanPageState extends State<DetailLaporanPage> {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        const Icon(
-                          Icons.person_outline,
-                          size: 14,
-                          color: Color(0xFF64748B),
-                        ),
                         const SizedBox(width: 6),
-                        Text(
-                          item['user_name'] ?? '-',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Color(0xFF475569),
-                          ),
-                        ),
                         const SizedBox(width: 16),
-                        const Icon(
-                          Icons.access_time_rounded,
-                          size: 14,
-                          color: Color(0xFF64748B),
-                        ),
                         const SizedBox(width: 6),
                         Text(
                           item['created_at'] ?? '-',
@@ -529,7 +512,7 @@ class _DetailLaporanPageState extends State<DetailLaporanPage> {
                   ],
                 ),
               ),
-              if (!widget.isAdmin && _isOwner) ...[
+              if (_isOwner && (isLost || !widget.isAdmin)) ...[
                 const SizedBox(height: 16),
                 SizedBox(
                   width: double.infinity,
@@ -602,7 +585,7 @@ class _DetailLaporanPageState extends State<DetailLaporanPage> {
                           const SizedBox(width: 8),
                           const Expanded(
                             child: Text(
-                              'Silakan datang ke bagian Lost and Found untuk informasi lebih lanjut.',
+                              'Silakan datang ke Pos Satpam untuk informasi lebih lanjut.',
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Color(0xFF92400E),

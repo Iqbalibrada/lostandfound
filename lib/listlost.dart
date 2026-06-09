@@ -65,7 +65,7 @@ class ItemLaporanCard extends StatelessWidget {
     final String baris2 =
         data['detail_2'] ??
         (isHiddenFoundDetail
-            ? 'Silakan datang ke bagian Lost and Found.'
+            ? 'Silakan datang ke Pos Satpam untuk informasi lebih lanjut.'
             : detailRows.length > 1
             ? detailRows[1]
             : '');
@@ -339,27 +339,35 @@ class ItemLaporanCard extends StatelessWidget {
                           ),
                           child: Column(
                             children: [
-                              InkWell(
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(10),
-                                  topRight: Radius.circular(10),
-                                ),
-                                onTap: onEdit,
-                                child: const Padding(
-                                  padding: EdgeInsets.all(8),
-                                  child: Icon(
-                                    Icons.edit_outlined,
-                                    size: 18,
-                                    color: Color(0xFF2563EB),
+                              if (onEdit != null) ...[
+                                InkWell(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                  ),
+                                  onTap: onEdit,
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Icon(
+                                      Icons.edit_outlined,
+                                      size: 18,
+                                      color: Color(0xFF2563EB),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const Divider(
-                                height: 1,
-                                thickness: 1,
-                                color: Color(0xFFE2E8F0),
-                              ),
+                                const Divider(
+                                  height: 1,
+                                  thickness: 1,
+                                  color: Color(0xFFE2E8F0),
+                                ),
+                              ],
                               InkWell(
+                                borderRadius: onEdit == null
+                                    ? const BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10),
+                                      )
+                                    : null,
                                 onTap: onDelete,
                                 child: const Padding(
                                   padding: EdgeInsets.all(8),

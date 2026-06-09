@@ -1,5 +1,3 @@
-import 'dart:math';
-
 double hitungKemiripan(String a, String b) {
   a = a.toLowerCase().trim();
   b = b.toLowerCase().trim();
@@ -7,36 +5,18 @@ double hitungKemiripan(String a, String b) {
   if (a == b) return 100.0;
   if (a.isEmpty || b.isEmpty) return 0.0;
 
-  final maxLen = max(a.length, b.length);
-  if (maxLen == 0) return 100.0;
+  final wordsA = a.split(RegExp(r'\s+'));
+  final wordsB = b.split(RegExp(r'\s+'));
 
-  final dist = _levenshtein(a, b);
-  return ((maxLen - dist) / maxLen) * 100.0;
-}
+  final shorter = wordsA.length <= wordsB.length ? wordsA : wordsB;
+  final longer = wordsA.length <= wordsB.length ? wordsB : wordsA;
 
-int _levenshtein(String a, String b) {
-  final m = a.length;
-  final n = b.length;
-
-  List<int> prev = List.generate(n + 1, (i) => i);
-  List<int> curr = List.filled(n + 1, 0);
-
-  for (int i = 1; i <= m; i++) {
-    curr[0] = i;
-    for (int j = 1; j <= n; j++) {
-      final cost = a[i - 1] == b[j - 1] ? 0 : 1;
-      curr[j] = [
-        prev[j] + 1,
-        curr[j - 1] + 1,
-        prev[j - 1] + cost,
-      ].reduce((x, y) => x < y ? x : y);
-    }
-    final temp = prev;
-    prev = curr;
-    curr = temp;
+  int matches = 0;
+  for (final word in shorter) {
+    if (longer.contains(word)) matches++;
   }
 
-  return prev[n];
+  return (matches / shorter.length) * 100.0;
 }
 
 String gabungTeks(List<dynamic> details) {
