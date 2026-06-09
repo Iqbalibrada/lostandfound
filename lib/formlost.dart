@@ -148,7 +148,6 @@ class _ReportFormPageState extends State<ReportFormPage>
         ),
       );
 
-      // Cari category_id dari database
       final catResponse = await supabase
           .from('categories')
           .select('id')
@@ -210,7 +209,6 @@ class _ReportFormPageState extends State<ReportFormPage>
           });
         }
 
-        // Similarity check untuk laporan hilang (di Flutter)
         if (widget.type == 'lost') {
           final matches = await _cekSimilarityLocal(
             reportId,
@@ -250,7 +248,6 @@ class _ReportFormPageState extends State<ReportFormPage>
     final combinedBaru = gabungTeks(details.map((d) => d).toList());
     if (combinedBaru.isEmpty) return [];
 
-    // Ambil semua laporan found dengan kategori sama
     final foundReports = await supabase
         .from('reports')
         .select('id')
@@ -263,14 +260,12 @@ class _ReportFormPageState extends State<ReportFormPage>
 
     final foundIds = foundReports.map((r) => r['id'] as int).toList();
 
-    // Ambil detail dari semua found report sekaligus
     final allDetails = await supabase
         .from('report_details')
         .select('report_id, field_key, field_label, field_value')
         .filter('report_id', 'in', '(${foundIds.join(',')})')
         .order('id');
 
-    // Kelompokkan detail per report
     final detailsByReport = <int, List<Map<String, dynamic>>>{};
     for (var d in allDetails) {
       final rid = d['report_id'] as int;
@@ -278,7 +273,6 @@ class _ReportFormPageState extends State<ReportFormPage>
       detailsByReport[rid]!.add(Map<String, dynamic>.from(d));
     }
 
-    // Hitung kemiripan untuk setiap found report
     final List<Map<String, dynamic>> hasil = [];
     for (final rid in foundIds) {
       final fd = detailsByReport[rid] ?? [];
@@ -294,7 +288,6 @@ class _ReportFormPageState extends State<ReportFormPage>
       }
     }
 
-    // Urutkan dari yang paling mirip
     hasil.sort((a, b) {
       final va =
           double.tryParse(a['kemiripan']!.replaceAll(RegExp(r'[^0-9.]'), '')) ??
@@ -305,7 +298,6 @@ class _ReportFormPageState extends State<ReportFormPage>
       return vb.compareTo(va);
     });
 
-    // Update matched_report_id jika ada yang >= 80%
     if (hasil.isNotEmpty) {
       final topMatchPercent =
           double.tryParse(

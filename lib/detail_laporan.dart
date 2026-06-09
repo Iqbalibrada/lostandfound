@@ -33,7 +33,6 @@ class _DetailLaporanPageState extends State<DetailLaporanPage> {
       final targetType = type == 'lost' ? 'found' : 'lost';
       final categoryId = widget.data['category_id'] as int;
 
-      // Ambil combined_text dari report ini
       final myDetails = widget.data['details'] as List? ?? [];
       final combinedSaya = gabungTeks(myDetails);
       if (combinedSaya.isEmpty) {
@@ -44,7 +43,6 @@ class _DetailLaporanPageState extends State<DetailLaporanPage> {
         return;
       }
 
-      // Ambil target reports dengan kategori sama
       final targetReports = await supabase
           .from('reports')
           .select('id')
@@ -82,7 +80,6 @@ class _DetailLaporanPageState extends State<DetailLaporanPage> {
         detailsByReport[d['report_id'] as int]!.add(d);
       }
 
-      // Ambil user & category untuk display match
       final usersResp = await supabase.from('users').select('id, name');
       final userMap = {for (var u in usersResp) u['id']: u['name']};
 
@@ -97,7 +94,6 @@ class _DetailLaporanPageState extends State<DetailLaporanPage> {
 
         final kemiripan = hitungKemiripan(combinedSaya, combinedTarget);
         if (kemiripan >= 70) {
-          // Ambil user_name & created_at dari report asli
           final targetReport = targetReports.firstWhere(
             (r) => r['id'] == tid,
             orElse: () => {},

@@ -54,8 +54,7 @@ class ItemLaporanCard extends StatelessWidget {
         .where((text) => text.trim().isNotEmpty)
         .take(3)
         .toList();
-    final bool isHiddenFoundDetail =
-        data['type'] == 'found' && !isAdmin;
+    final bool isHiddenFoundDetail = data['type'] == 'found' && !isAdmin;
     final String baris1 =
         data['detail_1'] ??
         (isHiddenFoundDetail
@@ -72,7 +71,7 @@ class ItemLaporanCard extends StatelessWidget {
             : '');
     final String baris3 =
         data['detail_3'] ?? (detailRows.length > 2 ? detailRows[2] : '');
-    baris3.toString(); // unused reference placeholder
+    baris3.toString();
     final String username = data['username'] ?? data['user_name'] ?? '-';
     final String tanggal = data['tanggal'] ?? data['created_at'] ?? '-';
 
@@ -98,9 +97,7 @@ class ItemLaporanCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       elevation: 3,
       shadowColor: topAccent.withValues(alpha: 0.15),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
@@ -137,7 +134,9 @@ class ItemLaporanCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (isOwner && similarityValue != null && similarityValue >= 70)
+                      if (isOwner &&
+                          similarityValue != null &&
+                          similarityValue >= 70)
                         Padding(
                           padding: const EdgeInsets.only(top: 6),
                           child: Container(
@@ -147,13 +146,21 @@ class ItemLaporanCard extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: similarityValue >= 85
-                                  ? const Color(0xFF10B981).withValues(alpha: 0.1)
-                                  : const Color(0xFFF59E0B).withValues(alpha: 0.1),
+                                  ? const Color(
+                                      0xFF10B981,
+                                    ).withValues(alpha: 0.1)
+                                  : const Color(
+                                      0xFFF59E0B,
+                                    ).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(4),
                               border: Border.all(
                                 color: similarityValue >= 85
-                                    ? const Color(0xFF10B981).withValues(alpha: 0.3)
-                                    : const Color(0xFFF59E0B).withValues(alpha: 0.3),
+                                    ? const Color(
+                                        0xFF10B981,
+                                      ).withValues(alpha: 0.3)
+                                    : const Color(
+                                        0xFFF59E0B,
+                                      ).withValues(alpha: 0.3),
                               ),
                             ),
                             child: Row(
@@ -182,7 +189,11 @@ class ItemLaporanCard extends StatelessWidget {
                           ),
                         ),
                       Padding(
-                        padding: EdgeInsets.only(top: similarityValue != null && similarityValue >= 70 ? 4 : 6),
+                        padding: EdgeInsets.only(
+                          top: similarityValue != null && similarityValue >= 70
+                              ? 4
+                              : 6,
+                        ),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 8,
@@ -195,7 +206,9 @@ class ItemLaporanCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6),
                             border: Border.all(
                               color: isResolved
-                                  ? const Color(0xFF10B981).withValues(alpha: 0.3)
+                                  ? const Color(
+                                      0xFF10B981,
+                                    ).withValues(alpha: 0.3)
                                   : topAccent.withValues(alpha: 0.3),
                             ),
                           ),
@@ -271,9 +284,7 @@ class ItemLaporanCard extends StatelessWidget {
                         Row(
                           children: [
                             Icon(
-                              isAdmin
-                                  ? Icons.person
-                                  : Icons.person_outline,
+                              isAdmin ? Icons.person : Icons.person_outline,
                               size: 12,
                               color: isAdmin
                                   ? const Color(0xFF2563EB)
