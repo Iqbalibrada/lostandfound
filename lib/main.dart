@@ -321,7 +321,7 @@ class _LaporanScreenState extends State<LaporanScreen> {
   }
 
   bool _canEditReport(Map<String, dynamic> item) {
-    if (isAdmin) return false;
+    if (isAdmin) return item['type'] == 'found';
     final int? ownerId = int.tryParse(item['user_id'].toString());
     return item['type'] == 'lost' && ownerId == widget.userId;
   }

@@ -65,7 +65,7 @@ class ItemLaporanCard extends StatelessWidget {
     final String baris2 =
         data['detail_2'] ??
         (isHiddenFoundDetail
-            ? 'Silakan datang ke Pos Satpam untuk informasi lebih lanjut.'
+            ? 'Deskripsi disembunyikan.'
             : detailRows.length > 1
             ? detailRows[1]
             : '');
