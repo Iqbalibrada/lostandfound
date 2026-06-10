@@ -493,7 +493,7 @@ class _DetailLaporanPageState extends State<DetailLaporanPage> {
                           ),
                           child: Text(
                             isResolved
-                                ? 'BARANG AMAN'
+                                ? 'SELESAI'
                                 : isLost
                                 ? 'HILANG'
                                 : 'DITEMUKAN',

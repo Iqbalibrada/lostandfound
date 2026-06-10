@@ -214,7 +214,7 @@ class ItemLaporanCard extends StatelessWidget {
                           ),
                           child: Text(
                             isResolved
-                                ? 'AMAN'
+                                ? 'SELESAI'
                                 : isLost
                                 ? 'HILANG'
                                 : 'DITEMUKAN',

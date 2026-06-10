@@ -168,7 +168,9 @@ class _LaporanScreenState extends State<LaporanScreen> {
       final results = await Future.wait([
         supabase
             .from('reports')
-            .select('id, user_id, category_id, type, status, matched_report_id, similarity, created_at')
+            .select(
+              'id, user_id, category_id, type, status, matched_report_id, similarity, created_at',
+            )
             .order('id', ascending: false),
         supabase.from('users').select('id, name'),
         supabase.from('categories').select('id, name, code'),
@@ -186,7 +188,7 @@ class _LaporanScreenState extends State<LaporanScreen> {
       final userMap = {for (var u in users) u['id']: u['name'] ?? 'Unknown'};
       final catMap = {
         for (var c in categories)
-          c['id']: {'name': c['name'], 'code': c['code']}
+          c['id']: {'name': c['name'], 'code': c['code']},
       };
 
       final detailsByReport = <dynamic, List>{};
@@ -221,8 +223,9 @@ class _LaporanScreenState extends State<LaporanScreen> {
     } catch (e) {
       if (!mounted) return;
       setState(() => isLoading = false);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Error: $e')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $e')));
     }
   }
 
@@ -354,7 +357,11 @@ class _LaporanScreenState extends State<LaporanScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Row(
           children: [
-            Icon(Icons.warning_amber_rounded, color: Color(0xFFEF4444), size: 24),
+            Icon(
+              Icons.warning_amber_rounded,
+              color: Color(0xFFEF4444),
+              size: 24,
+            ),
             SizedBox(width: 10),
             Text('Hapus laporan?', style: TextStyle(fontSize: 17)),
           ],
@@ -366,7 +373,10 @@ class _LaporanScreenState extends State<LaporanScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Batal', style: TextStyle(fontWeight: FontWeight.w500)),
+            child: const Text(
+              'Batal',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
           ),
           FilledButton.icon(
             onPressed: () => Navigator.pop(context, true),
@@ -374,7 +384,9 @@ class _LaporanScreenState extends State<LaporanScreen> {
             label: const Text('Hapus'),
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFFEF4444),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
         ],
@@ -388,16 +400,21 @@ class _LaporanScreenState extends State<LaporanScreen> {
           .from('reports')
           .update({'matched_report_id': null, 'similarity': null})
           .eq('matched_report_id', item['id']);
-      await supabase.from('report_details').delete().eq('report_id', item['id']);
+      await supabase
+          .from('report_details')
+          .delete()
+          .eq('report_id', item['id']);
       await supabase.from('reports').delete().eq('id', item['id']);
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Laporan berhasil dihapus')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Laporan berhasil dihapus')));
       fetchDataLaporan();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Terjadi kesalahan: $e')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Terjadi kesalahan: $e')));
     }
   }
 
@@ -408,7 +425,11 @@ class _LaporanScreenState extends State<LaporanScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: const Row(
           children: [
-            Icon(Icons.check_circle_outline, color: Color(0xFF10B981), size: 24),
+            Icon(
+              Icons.check_circle_outline,
+              color: Color(0xFF10B981),
+              size: 24,
+            ),
             SizedBox(width: 10),
             Text('Tandai Selesai?', style: TextStyle(fontSize: 17)),
           ],
@@ -420,7 +441,10 @@ class _LaporanScreenState extends State<LaporanScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Batal', style: TextStyle(fontWeight: FontWeight.w500)),
+            child: const Text(
+              'Batal',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
           ),
           FilledButton.icon(
             onPressed: () => Navigator.pop(context, true),
@@ -428,7 +452,9 @@ class _LaporanScreenState extends State<LaporanScreen> {
             label: const Text('Selesai'),
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFF10B981),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
         ],
@@ -454,8 +480,9 @@ class _LaporanScreenState extends State<LaporanScreen> {
       fetchDataLaporan();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Terjadi kesalahan: $e')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Terjadi kesalahan: $e')));
     }
   }
 
@@ -493,14 +520,20 @@ class _LaporanScreenState extends State<LaporanScreen> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Icon(
-                isLostTab ? Icons.search_off_rounded : Icons.inventory_2_outlined,
+                isLostTab
+                    ? Icons.search_off_rounded
+                    : Icons.inventory_2_outlined,
                 size: 36,
-                color: isLostTab ? const Color(0xFFEF4444) : const Color(0xFF10B981),
+                color: isLostTab
+                    ? const Color(0xFFEF4444)
+                    : const Color(0xFF10B981),
               ),
             ),
             const SizedBox(height: 20),
             Text(
-              isLostTab ? 'Belum ada laporan hilang' : 'Belum ada barang ditemukan',
+              isLostTab
+                  ? 'Belum ada laporan hilang'
+                  : 'Belum ada barang ditemukan',
               style: const TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w600,
@@ -519,7 +552,9 @@ class _LaporanScreenState extends State<LaporanScreen> {
             OutlinedButton.icon(
               onPressed: _openReportFormFromEmpty,
               icon: const Icon(Icons.add_rounded, size: 18),
-              label: Text(isLostTab ? 'Lapor Barang Hilang' : 'Tambah Barang Ditemukan'),
+              label: Text(
+                isLostTab ? 'Lapor Barang Hilang' : 'Tambah Barang Ditemukan',
+              ),
             ),
           ],
         ),
@@ -530,8 +565,9 @@ class _LaporanScreenState extends State<LaporanScreen> {
   @override
   Widget build(BuildContext context) {
     final bool isLostTab = _currentIndex == 0;
-    final List<Map<String, dynamic>> displayedItems =
-        isLostTab ? _filteredLost : _filteredFound;
+    final List<Map<String, dynamic>> displayedItems = isLostTab
+        ? _filteredLost
+        : _filteredFound;
     final bool isEmpty = displayedItems.isEmpty && !isLoading;
 
     return Scaffold(
@@ -580,13 +616,16 @@ class _LaporanScreenState extends State<LaporanScreen> {
                       Container(
                         margin: const EdgeInsets.fromLTRB(16, 6, 16, 0),
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 10,
+                          horizontal: 14,
+                          vertical: 10,
                         ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFEFF6FF),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF2563EB).withValues(alpha: 0.15),
+                            color: const Color(
+                              0xFF2563EB,
+                            ).withValues(alpha: 0.15),
                           ),
                         ),
                         child: Row(
@@ -600,7 +639,10 @@ class _LaporanScreenState extends State<LaporanScreen> {
                             const Expanded(
                               child: Text(
                                 'Tekan + untuk lapor barang hilang',
-                                style: TextStyle(fontSize: 12, color: Color(0xFF1E40AF)),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xFF1E40AF),
+                                ),
                               ),
                             ),
                             GestureDetector(
@@ -633,7 +675,7 @@ class _LaporanScreenState extends State<LaporanScreen> {
                           ),
                           const SizedBox(width: 8),
                           _buildFilterChip(
-                            label: 'Aman',
+                            label: 'Selesai',
                             selected: _statusFilter == 2,
                             isRed: false,
                             onTap: () => setState(() => _statusFilter = 2),
@@ -642,13 +684,13 @@ class _LaporanScreenState extends State<LaporanScreen> {
                           if (isAdmin || isLostTab)
                             _buildFilterChip(
                               label: 'Saya',
-                            selected: _userFilter == 1,
-                            isRed: false,
-                            activeColor: const Color(0xFF8B5CF6),
-                            onTap: () => setState(
-                              () => _userFilter = _userFilter == 1 ? 0 : 1,
+                              selected: _userFilter == 1,
+                              isRed: false,
+                              activeColor: const Color(0xFF8B5CF6),
+                              onTap: () => setState(
+                                () => _userFilter = _userFilter == 1 ? 0 : 1,
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -669,7 +711,9 @@ class _LaporanScreenState extends State<LaporanScreen> {
                     itemBuilder: (ctx, index) {
                       final item = displayedItems[index];
                       final bool isOwner =
-                          isAdmin || item['user_id'].toString() == widget.userId.toString();
+                          isAdmin ||
+                          item['user_id'].toString() ==
+                              widget.userId.toString();
                       return ItemLaporanCard(
                         data: item,
                         isAdmin: isAdmin,
@@ -744,7 +788,9 @@ class _LaporanScreenState extends State<LaporanScreen> {
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: selected ? activeColor.withValues(alpha: 0.1) : Colors.transparent,
+          color: selected
+              ? activeColor.withValues(alpha: 0.1)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: selected ? activeColor : const Color(0xFFE2E8F0),
@@ -791,7 +837,9 @@ class _BottomNavItem extends StatelessWidget {
               Icon(
                 icon,
                 size: 24,
-                color: isActive ? const Color(0xFF2563EB) : const Color(0xFF94A3B8),
+                color: isActive
+                    ? const Color(0xFF2563EB)
+                    : const Color(0xFF94A3B8),
               ),
               const SizedBox(height: 2),
               Text(
@@ -799,7 +847,9 @@ class _BottomNavItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
-                  color: isActive ? const Color(0xFF2563EB) : const Color(0xFF94A3B8),
+                  color: isActive
+                      ? const Color(0xFF2563EB)
+                      : const Color(0xFF94A3B8),
                 ),
               ),
             ],
